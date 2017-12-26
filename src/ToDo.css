@@ -14,4 +14,5 @@
 }
 
 .to-do .item {color: red;}
-.to-do .item.complete {color: green;}
+.to-do .item [aria-pressed="true"] {color: green;}
+.to-do .item [aria-pressed="false"]::before {content: "[incomplete] ";}

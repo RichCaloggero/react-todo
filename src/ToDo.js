@@ -101,17 +101,22 @@ this.props.items.length > 0? this.props.items.map ((item) =>
 class Item extends Component {
 render () {
 //alert ("rendering Item");
-let _checked = this.props.item.complete? "checked" : "";
+let item = this.props.item;
 
 return (
 <div className="item">
-<h2 className="item-title"><label>
-<input type="checkbox" defaultChecked={_checked}/>
-{this.props.item.title}
-</label></h2>
-<Details item={this.props.item} handleRemove={this.props.handleRemove}/>
+<h2 className="title" aria-live="polite">
+<button className="status" aria-pressed={item.complete? "true" : "false"} onClick={updateItemStatus}>
+{item.title}
+</button></h2>
+<Details item={item} handleRemove={this.props.handleRemove}/>
 </div>
 ); // return
+
+function updateItemStatus (e) {
+item.complete = !item.complete;
+e.target.setAttribute ("aria-pressed", item.complete? "true" : "false");
+} // updateItemStatus
 } // render
 } // class Item
 
