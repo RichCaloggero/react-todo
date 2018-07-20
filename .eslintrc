@@ -1,0 +1,5 @@
+accessibility rules, you can create an .eslintrc file in the root of your project with this content: 
+{
+  "extends": ["react-app", "plugin:jsx-a11y/recommended"],
+  "plugins": ["jsx-a11y"]
+}
