@@ -25,7 +25,7 @@ this.titleInput = element;
 
 handleAdd (item) {
 this.setState (prevState => {
-//alert (`updating ${JSON.stringify(prevState.items.slice().concat(item))}`);
+//console.log (`updating ${JSON.stringify(prevState.items.slice().concat(item))}`);
 return {
 items: prevState.items.slice()
 .concat (Object.assign(
@@ -51,6 +51,7 @@ handleChange (item) {
 const items = this.state.items
 .map(_item => {
 if (_item === item) _item.complete = !_item.complete;
+console.log ("changed: ", _item);
 return _item;
 });
 
@@ -64,11 +65,12 @@ let focus = (this.state.items.length === 0);
 
 if (focus && this.titleInput) this.titleInput.focus();
 
-//alert ("rendering ToDo");
+//console.log ("rendering ToDo");
 return (
 <div className="to-do app">
 <header>
 <h1 className="app-title">React To-do List</h1>
+<h2 aria-live="polite" aria-atomic="true" className="complete-count">{`${this.state.items.filter(item => item.complete).length} complete.`}</h2>
 </header>
 <List items={this.state.items} handleRemove={this.handleRemove} handleChange={this.handleChange}/>
 <hr/>
@@ -81,7 +83,7 @@ return (
 
 class AddItemForm extends ToDo {
 componentDidMount () {
-alert (`form mounted with element ${this.titleInput}`);
+console.log(`form mounted with element ${this.titleInput}`);
 this.props.receiveTitleInput (this.titleInput);
 } // componentDidMount
 
@@ -89,7 +91,7 @@ this.props.receiveTitleInput (this.titleInput);
 render () {
 let item = {complete: false};
 
-//alert ("rendering AddItemForm");
+//console.log ("rendering AddItemForm");
 return (
 <form
 className="add-item"
@@ -114,7 +116,7 @@ class List extends Component {
 render () {
 let key = keygen();
 
-//alert ("rendering List");
+//console.log ("rendering List");
 return (
 <ul>{
 this.props.items.length > 0?
@@ -133,15 +135,16 @@ this.props.items.length > 0?
 
 class Item extends Component {
   render () {
-//alert ("rendering Item");
+//console.log ("rendering Item");
 const {item, handleChange} = this.props;
 
 return (
 <div className="item">
 <h2 className="title" aria-live="polite">
-<button className="status" aria-pressed={item.complete? 'true' : 'false'} onClick={() => handleChange(item)}>
+<label>
 {item.title}
-</button>
+<input type="checkbox" className="status" defaultChecked={item.complete} onChange={() => handleChange(item)}/>
+</label>
 </h2>
 <Details item={item} handleRemove={this.props.handleRemove}/>
 </div>
@@ -153,7 +156,7 @@ return (
 
 class Details extends Component {
 render () {
-//alert ("rendering Details");
+//console.log ("rendering Details");
 return (
 <div className="item-details">
 <div className="description">{this.props.item.description}</div>
